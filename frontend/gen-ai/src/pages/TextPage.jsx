@@ -1,11 +1,43 @@
-import React, { useState } from 'react';
-import TextInput from '../components/TextInput'; // Ensure this path matches your file structure
+import React, { useState } from "react";
+import TextInput from "../components/TextInput"; // Ensure this path matches your file structure
+// import { createClient } from "@supabase/supabase-js";
+import { useAuth } from "../context/AuthProvider";
+import { supabase } from "../supabase/client";
 
 const TextPage = () => {
   const [chatHistory, setChatHistory] = useState([]);
+  const { user } = useAuth();
+  // const supabaseUrl = "https://legcqslsudvwqenlmkgm.supabase.co";
+  // const supabaseKey =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlZ2Nxc2xzdWR2d3Flbmxta2dtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDgxNjc3NDQsImV4cCI6MjAyMzc0Mzc0NH0.MzYADmSxRMUfSJeTqDYbk8Kq796vM2tWgj6owhNCdbw"; // Replace this with your Supabase key
+  // const supabase = createClient(supabaseUrl, supabaseKey);
+  const userId = user.email;
+  console.log(userId); // Replace "user1" with the actual user ID
+  // add user email here
 
-  const addToChatHistory = (userText, serverResponse) => {
-    setChatHistory(prevHistory => [...prevHistory, { userText, serverResponse }]);
+  const addToChatHistory = async (userText, serverResponse) => {
+    // Update the state with the new chat
+    setChatHistory((prevHistory) => [
+      ...prevHistory,
+      { userText, serverResponse },
+    ]);
+
+    // Store the chat history in Supabase
+    try {
+      const { data, error } = await supabase.from("chat_history").insert({
+        user_id: userId,
+        question: userText,
+        response: serverResponse,
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      } else {
+        console.log("Chat history stored successfully:", data);
+      }
+    } catch (error) {
+      console.error("Error storing chat history:", error.message);
+    }
   };
 
   return (

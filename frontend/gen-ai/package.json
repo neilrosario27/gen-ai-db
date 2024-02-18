@@ -11,6 +11,10 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
+    "@supabase/auth-helpers-react": "^0.4.2",
+    "@supabase/auth-ui-react": "^0.4.7",
+    "@supabase/auth-ui-shared": "^0.1.8",
+    "@supabase/supabase-js": "^2.39.6",
     "axios": "^1.6.7",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.3",

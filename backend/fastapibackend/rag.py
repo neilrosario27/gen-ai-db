@@ -17,6 +17,15 @@ from langchain.schema import (
     AIMessage
 )
 
+
+
+# import os
+# from supabase import create_client, Client
+
+# url: str ="https://legcqslsudvwqenlmkgm.supabase.co"
+# key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlZ2Nxc2xzdWR2d3Flbmxta2dtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDgxNjc3NDQsImV4cCI6MjAyMzc0Mzc0NH0.MzYADmSxRMUfSJeTqDYbk8Kq796vM2tWgj6owhNCdbw"
+# supabase: Client = create_client(url, key)
+
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 PINECONE_API_KEY = os.getenv('PINECONE_API_KEY')
 
@@ -103,6 +112,7 @@ def starting_point(question):
         )
     message.append(prompt)
     res = chat(message[-4:])
+    # supabase.table('chat_history').insert({"user_id": "neilrosario27@gmail.com", "question": question, "response" : res}).execute()
     message.append(res)
     return res.content
 
